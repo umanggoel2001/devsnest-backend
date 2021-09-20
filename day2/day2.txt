@@ -1,0 +1,325 @@
+umang@LAPTOP-I3VUDEMU:~$ psql --version
+psql (PostgreSQL) 10.18 (Ubuntu 10.18-0ubuntu0.18.04.1)
+umang@LAPTOP-I3VUDEMU:~$ sudo service postgresql start
+[sudo] password for umang:
+ * Starting PostgreSQL 10 database server                                                                        [ OK ]
+umang@LAPTOP-I3VUDEMU:~$ sudo su postgres
+postgres@LAPTOP-I3VUDEMU:/home/umang$ psql
+psql (10.18 (Ubuntu 10.18-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# CREATE USER DEVSNEST WITH PASSWORD 'password';
+ERROR:  role "devsnest" already exists
+postgres=# CREATE USER kiet WITH PASSWORD 'password';
+CREATE ROLE
+postgres=# CREATE DATABASE devs;
+ERROR:  database "devs" already exists
+postgres=# CREATE DATABASE it;
+WARNING:  could not flush dirty data: Function not implemented
+CREATE DATABASE
+postgres=# GRANT ALL PRIVILAGES ON DATABASE it to kiet;
+ERROR:  syntax error at or near "PRIVILAGES"
+LINE 1: GRANT ALL PRIVILAGES ON DATABASE it to kiet;
+                  ^
+postgres=# GRANT ALL PRIVILAGES ON DATABASE it to kiet;
+ERROR:  syntax error at or near "PRIVILAGES"
+LINE 1: GRANT ALL PRIVILAGES ON DATABASE it to kiet;
+                  ^
+postgres=# DROP DATABASE IF EXISTS it;
+DROP DATABASE
+postgres=# CREATE DATABASE it;
+CREATE DATABASE
+postgres=# GRANT ALL PRIVILIGES ON DATABASE it to kiet;
+ERROR:  syntax error at or near "PRIVILIGES"
+LINE 1: GRANT ALL PRIVILIGES ON DATABASE it to kiet;
+                  ^
+postgres=# GRANT ALL PRIVILEGES ON DATABASE it to kiet;
+GRANT
+postgres=# \L
+Invalid command \L. Try \? for help.
+postgres=# /L
+postgres-# \l
+                              List of databases
+   Name    |  Owner   | Encoding | Collate |  Ctype  |   Access privileges
+-----------+----------+----------+---------+---------+-----------------------
+ devs      | postgres | UTF8     | C.UTF-8 | C.UTF-8 |
+ it        | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =Tc/postgres         +
+           |          |          |         |         | postgres=CTc/postgres+
+           |          |          |         |         | kiet=CTc/postgres
+ postgres  | postgres | UTF8     | C.UTF-8 | C.UTF-8 |
+ template0 | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+           |          |          |         |         | postgres=CTc/postgres
+ template1 | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+           |          |          |         |         | postgres=CTc/postgres
+(5 rows)
+
+postgres-# \c
+You are now connected to database "postgres" as user "postgres".
+postgres-# CREATE TABLE COMPANY(
+postgres(# /q
+postgres(# \q
+postgres@LAPTOP-I3VUDEMU:/home/umang$ /l
+bash: /l: No such file or directory
+postgres@LAPTOP-I3VUDEMU:/home/umang$ \l
+l: command not found
+postgres@LAPTOP-I3VUDEMU:/home/umang$ psql
+psql (10.18 (Ubuntu 10.18-0ubuntu0.18.04.1))
+Type "help" for help.
+
+postgres=# \l
+                              List of databases
+   Name    |  Owner   | Encoding | Collate |  Ctype  |   Access privileges
+-----------+----------+----------+---------+---------+-----------------------
+ devs      | postgres | UTF8     | C.UTF-8 | C.UTF-8 |
+ it        | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =Tc/postgres         +
+           |          |          |         |         | postgres=CTc/postgres+
+           |          |          |         |         | kiet=CTc/postgres
+ postgres  | postgres | UTF8     | C.UTF-8 | C.UTF-8 |
+ template0 | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+           |          |          |         |         | postgres=CTc/postgres
+ template1 | postgres | UTF8     | C.UTF-8 | C.UTF-8 | =c/postgres          +
+           |          |          |         |         | postgres=CTc/postgres
+(5 rows)
+
+postgres=# \c it
+You are now connected to database "it" as user "postgres".
+it=# CREATE TABLE COMPANY(
+it(# ID INT PRIMARY KEY NOT NULL
+it(# ,
+it(# NAME TEXT NOT NULL,
+it(# AGE INT NOT NULL,
+it(# ADDRESS CHAR[50],
+it(# SALARY REAL
+it(# );
+CREATE TABLE
+it=# \d
+          List of relations
+ Schema |  Name   | Type  |  Owner
+--------+---------+-------+----------
+ public | company | table | postgres
+(1 row)
+
+it=# CREATE TABLE DEPARTMENT(
+it(# ID INT PRIMARY KEY NOT NULL,
+it(# DEPT CHAR[50] NOT NULL,
+it(# EMP_ID INT NOT NULL
+it(# );
+CREATE TABLE
+it=# CREATE SCHEMA mySchema;
+CREATE SCHEMA
+it=# CREATE TABLE mySchema.company(
+it(# ID INT NOT NULL,
+it(# NAME VARCHAR[20] NOT NULL,
+it(# AGE INT NOT NULL,
+it(# ADDRESS CHAR[25],
+it(# SALARY DECIMAL(18,2),
+it(# PRIMARY KEY(ID)
+it(# );
+CREATE TABLE
+it=# \D
+Invalid command \D. Try \? for help.
+it=# \d
+           List of relations
+ Schema |    Name    | Type  |  Owner
+--------+------------+-------+----------
+ public | company    | table | postgres
+ public | department | table | postgres
+(2 rows)
+
+it=# \d company
+                  Table "public.company"
+ Column  |      Type      | Collation | Nullable | Default
+---------+----------------+-----------+----------+---------
+ id      | integer        |           | not null |
+ name    | text           |           | not null |
+ age     | integer        |           | not null |
+ address | character(1)[] |           |          |
+ salary  | real           |           |          |
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+it=# INSERT INTO COMPANY(ID,NAME,AGE,ADDRESS,SALARY) VALUES (1,'UMANG',20,'GZB',40);
+ERROR:  malformed array literal: "GZB"
+LINE 1: ...(ID,NAME,AGE,ADDRESS,SALARY) VALUES (1,'UMANG',20,'GZB',40);
+                                                             ^
+DETAIL:  Array value must start with "{" or dimension information.
+it=# INSERT INTO COMPANY(ID,NAME,AGE,ADDRESS,SALARY) VALUES (1,'UMANG',20,40);
+ERROR:  INSERT has more target columns than expressions
+LINE 1: INSERT INTO COMPANY(ID,NAME,AGE,ADDRESS,SALARY) VALUES (1,'U...
+                                                ^
+it=# INSERT INTO COMPANY(ID,NAME,AGE,SALARY) VALUES (1,'UMANG',20,40);
+INSERT 0 1
+it=# SELECT * FROM COMPANY
+it-# ;
+ id | name  | age | address | salary
+----+-------+-----+---------+--------
+  1 | UMANG |  20 |         |     40
+(1 row)
+
+it=# select (12*3) as addition
+it-# ;
+ addition
+----------
+       36
+(1 row)
+
+it=# select count(*) as records from company;
+ records
+---------
+       1
+(1 row)
+
+it=# select current_timestamp;
+        current_timestamp
+----------------------------------
+ 2021-09-20 21:21:51.015757+05:30
+(1 row)
+
+it=# \d company
+                  Table "public.company"
+ Column  |      Type      | Collation | Nullable | Default
+---------+----------------+-----------+----------+---------
+ id      | integer        |           | not null |
+ name    | text           |           | not null |
+ age     | integer        |           | not null |
+ address | character(1)[] |           |          |
+ salary  | real           |           |          |
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+it=# \d company;
+                  Table "public.company"
+ Column  |      Type      | Collation | Nullable | Default
+---------+----------------+-----------+----------+---------
+ id      | integer        |           | not null |
+ name    | text           |           | not null |
+ age     | integer        |           | not null |
+ address | character(1)[] |           |          |
+ salary  | real           |           |          |
+Indexes:
+    "company_pkey" PRIMARY KEY, btree (id)
+
+it=# insert into company(id,name,age,salary) values (2,'rishabh',1,50);
+INSERT 0 1
+it=# select * from company
+it-# ;
+ id |  name   | age | address | salary
+----+---------+-----+---------+--------
+  1 | UMANG   |  20 |         |     40
+  2 | rishabh |   1 |         |     50
+(2 rows)
+
+it=# insert into company(id,name,age,salary) values (3,'kartik',5,70);
+INSERT 0 1
+it=# select * from company where age<=15 and salary<=40;
+ id | name | age | address | salary
+----+------+-----+---------+--------
+(0 rows)
+
+it=# select * from company where age<=15 and salary<=50;
+ id |  name   | age | address | salary
+----+---------+-----+---------+--------
+  2 | rishabh |   1 |         |     50
+(1 row)
+
+it=# select * from company
+;
+ id |  name   | age | address | salary
+----+---------+-----+---------+--------
+  1 | UMANG   |  20 |         |     40
+  2 | rishabh |   1 |         |     50
+  3 | kartik  |   5 |         |     70
+(3 rows)
+
+it=# select * from company where age is not null;
+ id |  name   | age | address | salary
+----+---------+-----+---------+--------
+  1 | UMANG   |  20 |         |     40
+  2 | rishabh |   1 |         |     50
+  3 | kartik  |   5 |         |     70
+(3 rows)
+
+it=# select * from company where name like 'u%';
+ id | name | age | address | salary
+----+------+-----+---------+--------
+(0 rows)
+
+it=# select * from company where name like 'U%';
+ id | name  | age | address | salary
+----+-------+-----+---------+--------
+  1 | UMANG |  20 |         |     40
+(1 row)
+
+it=# select * from company where name like 'U_MANG';
+ id | name | age | address | salary
+----+------+-----+---------+--------
+(0 rows)
+
+it=# select * from company where name like 'U_ANG';
+ id | name  | age | address | salary
+----+-------+-----+---------+--------
+  1 | UMANG |  20 |         |     40
+(1 row)
+
+it=# select * from company where salary::text like '4%';
+ id | name  | age | address | salary
+----+-------+-----+---------+--------
+  1 | UMANG |  20 |         |     40
+(1 row)
+
+it=# select * from company where salary is between 40 and 70;
+ERROR:  syntax error at or near "between"
+LINE 1: select * from company where salary is between 40 and 70;
+                                              ^
+it=# select * from company where salary  between 40 and 70;
+ id |  name   | age | address | salary
+----+---------+-----+---------+--------
+  1 | UMANG   |  20 |         |     40
+  2 | rishabh |   1 |         |     50
+  3 | kartik  |   5 |         |     70
+(3 rows)
+
+it=# select * from company where salary age in(40,50);
+ERROR:  syntax error at or near "age"
+LINE 1: select * from company where salary age in(40,50);
+                                           ^
+it=# select * from company where salary age in (40,50);
+ERROR:  syntax error at or near "age"
+LINE 1: select * from company where salary age in (40,50);
+                                           ^
+it=# select * from company where salary in (40,50);
+ id |  name   | age | address | salary
+----+---------+-----+---------+--------
+  1 | UMANG   |  20 |         |     40
+  2 | rishabh |   1 |         |     50
+(2 rows)
+
+it=# update company set salary=15000 where id=3;
+UPDATE 1
+it=# select * from company
+it-# ;
+ id |  name   | age | address | salary
+----+---------+-----+---------+--------
+  1 | UMANG   |  20 |         |     40
+  2 | rishabh |   1 |         |     50
+  3 | kartik  |   5 |         |  15000
+(3 rows)
+
+it=# \d
+           List of relations
+ Schema |    Name    | Type  |  Owner
+--------+------------+-------+----------
+ public | company    | table | postgres
+ public | department | table | postgres
+(2 rows)
+
+it=# create table customers(
+it(# cust_id int generated always as identity,
+it(# cust_name varchar(255) not null,
+it(#
+it(# );\
+ERROR:  syntax error at or near ")"
+LINE 4: );
+        ^
+Invalid command \. Try \? for help.
+it=#
