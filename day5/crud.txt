@@ -1,0 +1,47 @@
+//START WITH NODE---SIMPLE WRITE NODE
+
+Welcome to Node.js v14.16.1.
+Type ".help" for more information.
+
+FETCH THE NODE MODULE FS---FILE SYSTEM 
+
+> var fs=require("fs");
+undefined
+
+CREATE THE TEXT FILE AND WRITE
+
+> fs.writeFileSync("hello.txt","namaste world",function(err){if(err){console.log(err)}});
+undefined
+
+
+APPEND THE TEXT FILE-------
+
+> fs.appendFileSync("hello.txt","appended");
+undefined
+
+
+READ THE TEXT FILE--------
+> fs.readFileSync("hello.txt");
+<Buffer 6e 61 6d 61 73 74 65 20 77 6f 72 6c 64 61 70 70 65 6e 64 65 64>
+
+CONVERT TO STRING------------
+
+> fs.readFileSync("hello.txt","utf-8");
+'namaste worldappended'
+
+
+RENAME THE FILE-------------
+> fs.renameSync("hello.txt","hello2.txt");
+undefined
+
+FOR DELETING THE LINK-----------
+> fs.unlinkSync("hello2.txt");
+undefined
+
+FETCH THE OS MODULE----------------
+
+
+
+> os.version();
+'Windows 10 Home Single Language'
+>
