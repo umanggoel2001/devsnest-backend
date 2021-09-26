@@ -1,0 +1,37 @@
+//doc by um@nggoel
+
+// for two parameters
+
+encodeUrlComponent("something&something");
+app.get('/',(req,res,next)=>{
+    console.log(xyz);
+    next();//appyling middleware --it rubns before the actual function.
+},(req,res)=>{
+    res.status(200);
+    res.json(req.query);
+}
+})
+
+//next() middleware 
+
+
+2) app.use()   =====>
+if we want to run functn in every api then we use app.use();
+it implement the particular function in all api.
+And the sequence of the app.use(). matters a lot .
+
+
+3)drawback of using get method====>
+
+for the sake of performance get method saves the get value in form of cache ---
+for the case of password it hampers the security.
+
+4) that's why we use post method();
+5) req.body() didnt implement in post method
+so we have to install the body-parser
+cmd==> npm install --save body-parser
+
+// to implement in form
+app.use(bodyparser.urlEncioded({extended:true}));
+app.use(bodyparser.json());
+// thank you(r@dher@dhe)
