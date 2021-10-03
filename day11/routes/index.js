@@ -4,9 +4,16 @@ var registerInitialCheck=require('../middlewares/registerChecks');
 var register =require("../controllers/register");
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  const sess=req.session;
+  sess.username='umang'; 
   res.render('index', { title: 'Express' });
 });
 
+router.get('/test', function(req, res, next) {
+
+  console.log('Redis value',req.session.username);
+  res.render('index', { title: 'Express' });
+});
 
 //@email @lastname@ firstname @ password @confrim===body
 //desc

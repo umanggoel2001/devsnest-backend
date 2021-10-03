@@ -5,7 +5,7 @@ const sequelize =new Sequelize(
     "123456789",
     {
         host:"localhost",
-        dialect:"postgress"
+        dialect:"postgres"
     }
 );
 sequelize.sync();
